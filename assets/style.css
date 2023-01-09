@@ -1,0 +1,135 @@
+:root {
+    --light: rgb(252, 252, 245);
+    --contrast: rgb(230, 57, 70);
+    --dark: rgb(29, 53, 87);
+    --muted: rgb(69, 123, 157);
+    --pale: rgb(168, 218, 220);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+    background-color: var(--light);
+    color: var(--dark);
+    font-family: 'Quicksand', sans-serif;
+}
+
+/* high score link and timer @ left/right sides of top of page*/
+.banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.banner > a {
+    color: var(--muted);
+    text-decoration: none;
+}
+/*link color change on hover*/
+.banner > a:hover {
+    color: var(--dark)
+}
+
+/*timer title and # display are even w/ baseline*/
+#timer {
+    display: flex;
+    align-items: baseline;
+    color: var(--contrast);
+}
+
+.timer-count {
+    margin-left: 3px;
+}
+
+.quiz-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10%;
+}
+
+.quiz-body > h1 {
+    font-size: 2.1rem;
+    margin: 21px 0px;
+}
+
+.quiz-body p {
+    width: 90%;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.start-button {
+    padding: 10px;
+    border-radius: 10px;
+    border-color: var(--muted);
+    background-color: var(--dark);
+    color: var(--light);
+    font-size: 1rem;
+    margin-top: 20px;
+    transition: all .2s ease-in-out;
+}
+/*Start button grows and text changes color w mouse hover*/
+.start-button:hover {
+    transform: scale(1.1); 
+    color: var(--pale);
+}
+
+/*When screen = larger text = bigger and p element has larger side margins*/
+@media screen and (min-width: 782px) {
+    .banner > a {
+        font-size: 1.2rem;
+    }
+
+    #timer {
+        font-size: 1.2rem;
+    }
+
+    .quiz-body {
+        margin-top: 0%;
+    }
+
+    .quiz-body > h1 {
+        font-size: 2.4rem;
+    }
+    
+    .quiz-body p {
+        width: 70%;
+        font-size: 1.3rem;
+    }    
+
+    .start-button {
+        font-size: 1.3rem;
+    }
+}   
+
+@media screen and (min-width: 992px) {
+    .banner > a {
+        font-size: 1.5rem;
+    }
+
+    #timer {
+        font-size: 1.5rem;
+    }
+
+    .quiz-body {
+        margin-top: 0%;
+    }
+
+    .quiz-body > h1 {
+        font-size: 3rem;
+    }
+    
+    .quiz-body p {
+        width: 60%;
+        font-size: 1.6rem;
+    }    
+
+    .start-button {
+        font-size: 1.6rem;
+    }
+}    
