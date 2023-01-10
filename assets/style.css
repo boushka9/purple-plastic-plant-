@@ -7,10 +7,7 @@
 }
 
 * {
-  box-sizing: border-box;
-}
-
-body {
+    box-sizing: border-box;
     background-color: var(--light);
     color: var(--dark);
     font-family: 'Quicksand', sans-serif;
@@ -38,6 +35,10 @@ body {
 #timer {
     display: flex;
     align-items: baseline;
+}
+
+/*needed more specific selection to get color*/
+#timer > h3, div {
     color: var(--contrast);
 }
 
@@ -45,19 +46,20 @@ body {
     margin-left: 3px;
 }
 
-.quiz-body {
+/* Main page */
+.instructions {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 10%;
 }
 
-.quiz-body > h1 {
+.instructions > h1 {
     font-size: 2.1rem;
     margin: 21px 0px;
 }
 
-.quiz-body p {
+.instructions p {
     width: 90%;
     font-size: 1rem;
     text-align: center;
@@ -78,6 +80,110 @@ body {
     transform: scale(1.1); 
     color: var(--pale);
 }
+/*default display set to none to hide until called by JS*/
+#quiz {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+}
+
+#question {
+    margin: 20px 0px;
+    font-size: 2rem;
+    text-align: center;
+    color: var(--dark);
+}
+
+#choices {
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+}
+/*multiple choice answer buttons*/
+.btnStyles  {
+    margin: 10px;
+    font-size: 1.5rem;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: var(--muted);
+    border: 2px ridge var(--dark);
+    color: var(--light);
+    transition: all .2s ease-in-out;
+}
+/*answers will grow and change color when user hovers */
+#choices .btnStyles:hover {
+    transform: scale(1.1); 
+    background-color: var(--pale);
+    color: var(--dark);
+}
+
+/*answer feedback hidden until user chooses an answer*/
+#wrong {
+    display: none;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#wrong p {
+    color: var(--contrast);
+    font-size: 1.5rem;
+}
+
+#correct {
+    display: none;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#correct p {
+    color: var(--pale);
+    font-size: 1.5rem;
+}
+
+#congrats {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    color: var(--dark)
+}
+
+#uh-oh {
+    display: none;
+    /*JS will set display to flex*/
+    flex-direction: column;
+    align-items: center;
+    color: var(--dark)
+}
+
+#finish h2 {
+    color: var(--contrast);
+    font-size: 2.1rem;
+}
+
+#finish p {
+    width: 90%;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.submit-score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.submit-score label {
+    margin: 10px;
+}
+
+.submit-score input {
+    margin: 10px;
+}
+
+.submit-score div {
+    margin: 10px;
+}
+
+
 
 /*When screen = larger text = bigger and p element has larger side margins*/
 @media screen and (min-width: 782px) {
@@ -89,15 +195,15 @@ body {
         font-size: 1.2rem;
     }
 
-    .quiz-body {
+    .instructions {
         margin-top: 0%;
     }
 
-    .quiz-body > h1 {
+    .instructions > h1 {
         font-size: 2.4rem;
     }
     
-    .quiz-body p {
+    .instructions p {
         width: 70%;
         font-size: 1.3rem;
     }    
@@ -105,7 +211,17 @@ body {
     .start-button {
         font-size: 1.3rem;
     }
+
+    #finish h2 {
+        font-size: 2.5rem;
+    }
+
+    #finish p {
+        width: 70%;
+        font-size: 1.3rem;
+    }    
 }   
+
 
 @media screen and (min-width: 992px) {
     .banner > a {
@@ -116,20 +232,31 @@ body {
         font-size: 1.5rem;
     }
 
-    .quiz-body {
+    .instructions {
         margin-top: 0%;
     }
 
-    .quiz-body > h1 {
+    .instructions > h1 {
         font-size: 3rem;
+        margin-top: 15px;
     }
     
-    .quiz-body p {
+    .instructions p {
         width: 60%;
         font-size: 1.6rem;
+        margin: 12px 0px;
     }    
 
     .start-button {
         font-size: 1.6rem;
     }
+
+    #finish h2 {
+        font-size: 3rem;
+    }
+
+    #finish p {
+        width: 60%;
+        font-size: 1.6rem;
+    }    
 }    
