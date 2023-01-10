@@ -95,6 +95,47 @@ function startTimer() {
   }, 1000);
 }
 
+//Display questions in HTML
+function renderQuestions() {
+    //render question onto empty div
+    var questionEl = document.getElementById('question');
+    
+    var choicesEl = document.getElementById('choices');
+
+    // write the questions starting at item 0 and writing 
+    questionEl.textContent = questions[qIndex].pregunta;
+
+    for (var i = 0; i < questions[qIndex].choices.length; i++){
+        var btnEl = document.createElement("button");
+        btnEl.className ="btnStyles";
+        btnEl.textContent = questions[qIndex].choices[i];
+        btnEl.addEventListener('click', judgeAnswer)
+        choicesEl.append(btnEl);
+    }
+    
+    //OFFICE if more questions, keep going, if no more question end (timer end?)
+}
+
+
+
+function judgeAnswer(event) {
+    if (event.target === questions[qIndex].answer) {
+        correctEl.style.display="flex";
+    } 
+    else {
+        wrongEl.style.display="flex";
+    }
+ // OFFICE select value with the answers and if that answer is correct do x if answer is wrong do z
+ // increase qIndex to display next question? w for loop?
+}
+
+
+function youWon() {
+    startPage.style.display="none";
+    quizEl.style.display="none";
+    timerWon.style.display="none";
+    congrats.style.display="flex";
+}
 
 function timedOut() {
     startPage.style.display="none";
