@@ -20,11 +20,50 @@
         </div>    
     </header>
 
-    <main class="quiz-body">
-        <h1>Code Quiz</h1>
-        <p>Test your coding knowledge by answering these code-related questions before the timer reaches zero! </p>
-        <p>Keep in mind that incorrect answers will count against your score and loose you 10 seconds for every incorrect answer.</p>
-        <button class="start-button">Start Quiz</button>
+    <main>
+        <section class="instructions">
+            <h1>Code Quiz</h1>
+            <p>Test your coding knowledge by answering these code-related questions before the timer reaches zero! </p>
+            <p>You will have 100 seconds to answer ten multiple choice questions.</p>
+            <p>Keep in mind that incorrect answers will count against your score and loose you 10 seconds for every incorrect answer!</p>
+            <button class="start-button">Start Quiz</button>
+    </section>
+    <section id="quiz">
+        <div id="question"></div>
+        <div id="choices"></div>
+        
+        <div id="correct">
+            <p>Correct!</p>
+        </div>
+        <div id="wrong">
+            <p>Wrong!</p>
+        </div>
+    </section>
+    <section id="finish">
+        <div id="congrats">
+            <h2>Congrats!</h2>
+            <p>You completed the quiz before the timer ran out.</p>
+            <p>You can submit your initials and current, or go back to try again.</p>
+            <form class="submit-score">
+                <label for="initials">Your initials:</label>
+                <input type="text" name="initials">
+                <div class="yourscore"></div>
+                <input class="submitBtn" type="submit" value="Submit">
+            </form> 
+        </div>
+        <!-- OFFICE Should I write content here, style it in css, and set the display in css to none so the js just makes my styling visible?-->
+        <div id="uh-oh">
+            <h2>Uh oh!</h2>
+            <p>It looks like the timer ran out before you could answer all ten questions!</p>
+            <p>You can submit your initials and score, or go back to try again.</p>
+            <form class="submit-score">
+                <label for="initials">Your initials:</label>
+                <input type="text" name="initials">
+                <div class="yourscore"></div>
+                <input class="submitBtn" type="submit" value="Submit">
+            </form>    
+        </div>
+    </section>
     </main>
     <script src="assets/script.js"></script>
   </body>
