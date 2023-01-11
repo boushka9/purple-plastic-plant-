@@ -6,6 +6,8 @@ var startPage = document.querySelector(".instructions");
 var quizEl = document.querySelector("#quiz");
 var questionEl = document.getElementById("question");
 var choiceEL = Array.from(document.getElementsByClassName("choice"));
+var correctEl = document.querySelector("#correct");
+var wrongEl = document.querySelector("#wrong");
 //empty object for 
 var currentQuery = {};
 
@@ -38,7 +40,7 @@ var allQuestions = [
         answer: 2,        
     },
     {
-        question: "What type of data is enclosed in brackets and seperated by spaces?", 
+        question: "What type of data is enclosed in brackets and seperated by commas?", 
         choice1: "Object", 
         choice2: "Array", 
         choice3: "BigInt",
@@ -46,7 +48,7 @@ var allQuestions = [
         answer: 2,        
     },
     {
-        question: "What property would you use to determine the how many items are in an array?", 
+        question: "What property would you use to determine the how many items are in a string?", 
         choice1: "While loop",
         choice2:  "&&", 
         choice3: ".push", 
@@ -90,7 +92,7 @@ var allQuestions = [
         choice1: "*", 
         choice2: "/", 
         choice3: "%", 
-        choice4: "|",
+        choice4: "||",
         answer: 3,        
     },
 ]
@@ -103,9 +105,14 @@ var questionIndex = 0;
 var score = 0;
 // each correct score = 10 points
 var correctScore = 10;
-var totalScore = 100;
+var perfectScore = 100;
 // user will see 10 questions before they finsih
+//may not be neccessary 
 var totalQueries = 10;
+
+var timerWon = document.querySelector("#uh-oh");
+var congrats = document.querySelector("#congrats");
+
 
 //empty global variable to hold timer 
 var timer;
@@ -145,6 +152,8 @@ function startTimer() {
 
 
 function renderNextQuestion() {
+    correctEl.style.display="none";
+    wrongEl.style.display="none";
     //if you answer all questions before timer end, go to congrats page
     if (questionsLeft.length === 0 || questioncCounter >= totalQueries) {
        return youWon(); 
@@ -180,33 +189,37 @@ choiceEL.forEach(choiceEL => {
         //delay in users ability to answer
         allowGuess = false;
         // use dataset number of clicked choice to see what user clicked
-        var userAnswer = e.target;
-        var correctAnswer = userAnswer.dataset["number"];
-        console.log(correctAnswer);
-        renderNextQuestion();
+        var userChoice = e.target;
+        var userAnswer = userChoice.dataset["number"];
 
+        if (userAnswer == currentQuery.answer) {
+            correctEl.style.display="flex";
+        }
+
+        if (userAnswer != currentQuery.answer) {
+            wrongEl.style.display="flex";
+            //if wrong loose 10 seconds on timer
+            timerCount -= 10;
+        }
+        // allows correct/wrong to display on screen for 1500 milliseconds before calling render function which clears wrong/correctEl
+        setTimeout(renderNextQuestion, 1500);
+        
     });
 })
 
 
-var timerWon = document.querySelector("#uh-oh");
-var congrats = document.querySelector("#congrats")
-var wrongEl = document.querySelector("#wrong");
-var correctEl = document.querySelector("#correct");
-var goHome = document.getElementsByClassName('gohome');
 
 
 function youWon() {
-    startPage.style.display="none";
     quizEl.style.display="none";
-    timerWon.style.display="none";
     congrats.style.display="flex";
+    //stop timer running
+    clearInterval(timer);
     var getHome = document.querySelector('#getHome')
     getHome.addEventListener('click', homePage)
 }
 
 function timedOut() {
-    startPage.style.display="none";
     quizEl.style.display="none";
     timerWon.style.display="flex";
     var goHome = document.querySelector('#goHome');
