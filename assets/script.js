@@ -1,67 +1,118 @@
 var timerEl = document.querySelector(".timer-count");
 var startButton = document.querySelector(".start-button");
 var startPage = document.querySelector(".instructions");
-var quizEl = document.querySelector("#quiz");
-var timerWon = document.querySelector("#uh-oh");
-var congrats = document.querySelector("#congrats")
-var wrongEl = document.querySelector("#wrong");
-var correctEl = document.querySelector("#correct");
 
-var questions = [
+//global variables for quiz 
+var quizEl = document.querySelector("#quiz");
+var questionEl = document.getElementById("question");
+var choiceEL = Array.from(document.getElementsByClassName("choice"));
+var correctEl = document.querySelector("#correct");
+var wrongEl = document.querySelector("#wrong");
+//empty object for 
+var currentQuery = {};
+
+// for delays in interactivenes
+var allowGuess = false;
+
+var allQuestions = [
     {
-        pregunta: "What type of data is enclosed in quotation marks?", //pregunta is  question in spanish
-        choices: ["Number", "Boolean", "String", "BigInt"],
-        answer: "String",   
+        question: "What type of data is enclosed in quotation marks?", 
+        choice1: "Number",
+        choice2: "Boolean",
+        choice3: "String",
+        choice4: "BigInt",
+        answer: 3,   
     },
     {
-        pregunta: "Which of the following is a primitive datatype?", 
-        choices: ["String", "Boolean", "Number", "All of the above"],
-        answer: "All of the above",        
+        question: "Which of the following is a primitive datatype?", 
+        choice1: "String", 
+        choice2: "Boolean", 
+        choice3: "Number",
+        choice4:  "All of the above",
+        answer: 4,        
     },
     {
-        pregunta: "What type of data is enclosed in brackets and seperated by spaces?", 
-        choices: ["Object", "Array", "BigInt", "Variables"],
-        answer: "Array",        
+        question: "What type of data is enclosed in brackets and seperated by spaces?", 
+        choice1: "Object", 
+        choice2: "Array",
+        choice3:  "BigInt",
+        choice4:  "Variables",
+        answer: 2,        
     },
     {
-        pregunta: "What type of data is enclosed in brackets and seperated by spaces?", 
-        choices: ["Object", "Array", "BigInt", "Variables"],
-        answer: "Array",        
+        question: "What type of data is enclosed in brackets and seperated by commas?", 
+        choice1: "Object", 
+        choice2: "Array", 
+        choice3: "BigInt",
+        choice4:  "Variables",
+        answer: 2,        
     },
     {
-        pregunta: "What property would you use to determine the how many items are in an array?", 
-        choices: ["While loop", "&&", ".push", ".length"],
-        answer: ".length",        
+        question: "What property would you use to determine the how many items are in a string?", 
+        choice1: "While loop",
+        choice2:  "&&", 
+        choice3: ".push", 
+        choice4: ".length",
+        answer: 4,        
     },
     {
-        pregunta: "What is a function inside of an object called?", 
-        choices: ["Method", "Varibable", "Function", "Nested Object"],
-        answer: "Method",        
+        question: "What is a function inside of an object called?", 
+        choice1: "Function", 
+        choice2: "Varibable", 
+        choice3: "Method", 
+        choice4: "Nested Function",
+        answer: 3,        
     },
     {
-        pregunta: "Which of the following would call the function 'startGame'?", 
-        choices: ["startGame", "init: startGame", "startGame()", "function startGame()"],
-        answer: "startGame()",        
+        question: "Which of the following would call the function 'startGame'?", 
+        choice1: "startGame()", 
+        choice2: "init: startGame", 
+        choice3: "startGame", 
+        choice4: "function startGame()",
+        answer: 1,        
     },
     {
-        pregunta: "What selector would you use to change all <p> elements?", 
-        choices: [".setAttribute", ".selectElement", ".createElement", ".querySelectorAll"],
-        answer: ".querySelectorAll",        
+        question: "What selector would you use to change all <p> elements?", 
+        choice1: ".setAttribute", 
+        choice2: ".selectElement", 
+        choice3: ".createElement", 
+        choice4: ".querySelectorAll",
+        answer: 4,        
     },
     {
-        pregunta: "How can you target an element's attribute with JavaScript?", 
-        choices: [".getAttribute", ".setAttribute", ".removeAttribute", ".callAttribute"],
-        answer: ".getAttribute",        
+        question: "How can you target an element's attribute with JavaScript?", 
+        choices1: ".getAttribute", 
+        choice2: ".setAttribute", 
+        choice3: ".removeAttribute", 
+        choice4: ".callAttribute",
+        answer: 1,        
     },
     {
-        pregunta: "Which arthmetic operator returns the remainder of two numbers?", 
-        choices: ["*", "/", "%", "|"],
-        answer: "%",        
+        question: "Which arthmetic operator returns the remainder of two numbers?", 
+        choice1: "*", 
+        choice2: "/", 
+        choice3: "%", 
+        choice4: "||",
+        answer: 3,        
     },
 ]
+//to take questions out of all questions arary
+var questionsLeft = [];
+//question counter 
+var questionIndex = 0;
 
-//Use for questions array to start at first item (object) in array 
-var qIndex = 0
+// User score variables
+var score = 0;
+// each correct score = 10 points
+var correctScore = 10;
+var perfectScore = 100;
+// user will see 10 questions before they finsih
+//may not be neccessary 
+var totalQueries = 10;
+
+var timerWon = document.querySelector("#uh-oh");
+var congrats = document.querySelector("#congrats");
+
 
 //empty global variable to hold timer 
 var timer;
@@ -70,13 +121,17 @@ var timerCount;
 
 // start quiz: timer and questions render
 function startQuiz() {
-    timerCount = 101;
+    timerCount = 151;
+    //reset questions and score (just to be safe)
+    qIndex = 0;
+    score = 0;
     startTimer();
     startPage.style.display="none";
     quizEl.style.display="flex";
-    renderQuestions();
+    // spread operator to get full copy of array w/o affecting questionEl array
+    questionsLeft = [...allQuestions];
+    renderNextQuestion();
 }
-
 
 // Starts timer and triggers (timedOut function to end quiz within or as own func?)
 function startTimer() {
@@ -95,52 +150,87 @@ function startTimer() {
   }, 1000);
 }
 
-//Display questions in HTML
-function renderQuestions() {
-    //render question onto empty div
-    var questionEl = document.getElementById('question');
-    
-    var choicesEl = document.getElementById('choices');
 
-    // write the questions starting at item 0 and writing 
-    questionEl.textContent = questions[qIndex].pregunta;
-
-    for (var i = 0; i < questions[qIndex].choices.length; i++){
-        var btnEl = document.createElement("button");
-        btnEl.className ="btnStyles";
-        btnEl.textContent = questions[qIndex].choices[i];
-        btnEl.addEventListener('click', judgeAnswer)
-        choicesEl.append(btnEl);
+function renderNextQuestion() {
+    correctEl.style.display="none";
+    wrongEl.style.display="none";
+    //if you answer all questions before timer end, go to congrats page
+    if (questionsLeft.length === 0 || questioncCounter >= totalQueries) {
+       return youWon(); 
     }
+
+    // if timer runs out before you answer all questions, go to uh-oh page
+    if (timerCount === 0) {
+        return timedOut();
+    }
+    //increase question counter by 1 as game progresses
+    questionIndex++;
+    //display questions in random order via questionsLeft = no repeats
+   var questioncCounter = Math.floor(Math.random() * questionsLeft.length);
+   //get the question displayed on screen from the question property of the array of questions left
+    currentQuery = questionsLeft[questioncCounter];
+    questionEl.innerText = currentQuery.question;
+   // for each instance of choiceEL (which is class="choice") find the dataset number and match it to the same number @end of choice#: in 'current query' array
+    choiceEL.forEach(choiceEL => {
+        var number = choiceEL.dataset['number'];
+        choiceEL.innerText = currentQuery['choice' + number];
+    });
+
+    //get rid of questions as they are answered so they don't repeat
+    questionsLeft.splice(questioncCounter, 1);
     
-    //OFFICE if more questions, keep going, if no more question end (timer end?)
+    allowGuess = true;
 }
 
+//for each choice element button, listen for click and check data attribute #
+choiceEL.forEach(choiceEL => {
+    choiceEL.addEventListener('click', e => {
+        if (!allowGuess) return;
+        //delay in users ability to answer
+        allowGuess = false;
+        // use dataset number of clicked choice to see what user clicked
+        var userChoice = e.target;
+        var userAnswer = userChoice.dataset["number"];
+
+        if (userAnswer == currentQuery.answer) {
+            correctEl.style.display="flex";
+        }
+
+        if (userAnswer != currentQuery.answer) {
+            wrongEl.style.display="flex";
+            //if wrong loose 10 seconds on timer
+            timerCount -= 10;
+        }
+        // allows correct/wrong to display on screen for 1500 milliseconds before calling render function which clears wrong/correctEl
+        setTimeout(renderNextQuestion, 1500);
+        
+    });
+})
 
 
-function judgeAnswer(event) {
-    if (event.target === questions[qIndex].answer) {
-        correctEl.style.display="flex";
-    } 
-    else {
-        wrongEl.style.display="flex";
-    }
- // OFFICE select value with the answers and if that answer is correct do x if answer is wrong do z
- // increase qIndex to display next question? w for loop?
-}
 
 
 function youWon() {
-    startPage.style.display="none";
     quizEl.style.display="none";
-    timerWon.style.display="none";
     congrats.style.display="flex";
+    //stop timer running
+    clearInterval(timer);
+    var getHome = document.querySelector('#getHome')
+    getHome.addEventListener('click', homePage)
 }
 
 function timedOut() {
-    startPage.style.display="none";
     quizEl.style.display="none";
-    timerWon.style.display="flex"
+    timerWon.style.display="flex";
+    var goHome = document.querySelector('#goHome');
+    goHome.addEventListener('click', homePage);
+}
+
+function homePage() {
+    startPage.style.display="flex";
+    quizEl.style.display="none";
+    timerWon.style.display="none";
+    congrats.style.display="none";
 }
 
 // When startBtn is clicked, run function startGame

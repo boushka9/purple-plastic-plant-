@@ -12,7 +12,7 @@
   <body>
     <header>
         <div class="banner">
-            <a href="#high-scores" target="_self">View high scores</a>
+            <a id="scores" href="#high-scores" target="_self">View high scores</a>
             <div id="timer">
                 <h3>Time: </h3>
                 <div class="timer-count"> 0</div>
@@ -21,17 +21,24 @@
     </header>
 
     <main>
-        <section class="instructions">
+        <section class="instructions" id="home">
             <h1>Code Quiz</h1>
             <p>Test your coding knowledge by answering these code-related questions before the timer reaches zero! </p>
-            <p>You will have 100 seconds to answer ten multiple choice questions.</p>
+            <p>You will have 150 seconds to answer ten multiple choice questions.</p>
             <p>Keep in mind that incorrect answers will count against your score and loose you 10 seconds for every incorrect answer!</p>
             <button class="start-button">Start Quiz</button>
     </section>
     <section id="quiz">
-        <div id="question"></div>
-        <div id="choices"></div>
-        
+        <h2 id="question"></h2>
+        <!--custom data attribute to tell dif btw each choice-->
+        <div id="buttons">
+            <button class="choice" data-number="1"></button>
+            <button class="choice" data-number="2"></button>
+            <button class="choice" data-number="3"></button>
+            <button class="choice" data-number="4"></button>  
+        </div>
+
+
         <div id="correct">
             <p>Correct!</p>
         </div>
@@ -43,12 +50,16 @@
         <div id="congrats">
             <h2>Congrats!</h2>
             <p>You completed the quiz before the timer ran out.</p>
-            <p>You can submit your initials and current, or go back to try again.</p>
+            <p>You can submit your initials and current score, or go back to try again.</p>
             <form class="submit-score">
                 <label for="initials">Your initials:</label>
                 <input type="text" name="initials">
-                <div class="yourscore"></div>
-                <input class="submitBtn" type="submit" value="Submit">
+                <div>
+                    <label for="score" class="yourscore">Your score: </label>
+                    <div class="finalscore"></div>
+                </div>
+                <input class="btns" type="submit" value="Submit">
+                <input class="btns" id="getHome" type="button" value="Go Back">
             </form> 
         </div>
         <!-- OFFICE Should I write content here, style it in css, and set the display in css to none so the js just makes my styling visible?-->
@@ -59,8 +70,12 @@
             <form class="submit-score">
                 <label for="initials">Your initials:</label>
                 <input type="text" name="initials">
-                <div class="yourscore"></div>
-                <input class="submitBtn" type="submit" value="Submit">
+                <div>
+                    <label for="score" class="yourscore">Your score: </label>
+                    <div class="finalscore"></div>
+                </div>
+                <input class="btns" type="submit" value="Submit">
+                <input class="btns" id="goHome" type="button" value="Go Back">
             </form>    
         </div>
     </section>
