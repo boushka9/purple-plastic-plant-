@@ -121,7 +121,7 @@ var timerCount;
 
 // start quiz: timer and questions render
 function startQuiz() {
-    timerCount = 121;
+    timerCount = 120;
     //reset questions and score (just to be safe)
     qIndex = 0;
     score = 0;
@@ -245,7 +245,6 @@ function saveScore() {
         return homePage();
     }
 }
-
 
 
 
