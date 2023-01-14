@@ -133,6 +133,7 @@ button.choice:hover {
 
 #correct {
     display: none;
+      /*JS will set display to flex*/
     flex-direction: row;
     justify-content: center;
 }
@@ -142,19 +143,10 @@ button.choice:hover {
     font-size: 1.5rem;
 }
 
-#congrats {
+#finish {
     display: none;
     flex-direction: column;
     align-items: center;
-    color: var(--dark)
-}
-
-#uh-oh {
-    display: none;
-    /*JS will set display to flex*/
-    flex-direction: column;
-    align-items: center;
-    color: var(--dark)
 }
 
 #finish h2 {
@@ -168,6 +160,27 @@ button.choice:hover {
     font-size: 1.2rem;
     text-align: center;
 }
+
+#congrats {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    color: var(--dark)
+}
+
+#uh-oh {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    color: var(--dark)
+}
+
+#finalscores {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
 
 .btns {
     font-size: 1rem;
@@ -199,10 +212,18 @@ button.choice:hover {
     margin: 10px;
 }
 
-.submit-score div {
-    margin: 10px;
+
+#viewhighscores {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10%;
 }
 
+#viewhighscores > h1 {
+    font-size: 2.1rem;
+    margin: 21px 0px;
+}
 
 
 /*When screen = larger text = bigger and p element has larger side margins*/
