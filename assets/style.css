@@ -212,19 +212,43 @@ button.choice:hover {
     margin: 10px;
 }
 
+a#backbtn {
+    display: inline;
+    float: left;
+    margin: 15px 0 0 15px;
+    font-size: 1.5rem;
+    text-decoration: none;
+    color: var(--muted);
+}
 
-#viewhighscores {
-    display: none;
+#highscorespage {
+    display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 10%;
 }
 
-#viewhighscores > h1 {
-    font-size: 2.1rem;
+#highscorespage > h1 {
+    font-size: 3rem;
     margin: 21px 0px;
+    color: var(--contrast);
 }
 
+#allscores {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#allscores > p {
+    text-align: center;
+    font-size: 2rem;
+    margin: 15px;
+    color: var(--dark);
+}
+
+#allscores > p:nth-child(odd) {
+    background-color: var(--pale);
+}
 
 /*When screen = larger text = bigger and p element has larger side margins*/
 @media screen and (min-width: 782px) {

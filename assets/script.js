@@ -13,9 +13,6 @@ var scoreEl = document.getElementById("finalscores");
 //empty object to keep track of which questions have been shown and which are left 
 var currentQuery = {};
 
-// stop user from speed clicking their way through
-//var allowGuess = false;
-
 var allQuestions = [
     {
         question: "What type of data is enclosed in quotation marks?", 
@@ -105,14 +102,16 @@ var questionIndex = 0;
 
 // User score variables
 var score = 0;
-// each correct score = 10 points
-var correctScore = 10;
-var perfectScore = 100;
 
-
+//Variables for when user completes quiz
 var finish = document.querySelector("#finish")
 var timerWon = document.querySelector("#uh-oh");
 var congrats = document.querySelector("#congrats");
+var initialsInput = document.getElementById('initials');
+var submitBtn = document.getElementById("submitscore");
+var goToScores = document.getElementById("scoreslist");
+var goHome = document.querySelector('#goHome');
+
 
 
 //empty global variable to hold timer 
@@ -122,7 +121,7 @@ var timerCount;
 
 // start quiz: timer and questions render
 function startQuiz() {
-    timerCount = 1;
+    timerCount = 121;
     //reset questions and score (just to be safe)
     qIndex = 0;
     score = 0;
@@ -215,7 +214,7 @@ function setScore() {
     localStorage.setItem("scoreCount", score);
 }
 
-function getScores() {
+function showScores() {
     // Get stored value from user storage, if it exists
     var storedScore = localStorage.getItem("scoreCount");
     // If stored value doesn't exist, set counter to 0
@@ -229,6 +228,27 @@ function getScores() {
     scoreEl.textContent = score;
 }
 
+function saveScore() {
+    //get initials value from input box
+    var userInitials = initialsInput.value;
+    
+    // check if input box is empty
+    if (initialsInput !== '') {
+        //get saved scores from local storage or if none give empty array
+        var savedHighScores = JSON.parse(window.localStorage.getItem('savedHighScores')) || [];
+        //user saves their score = follow this format
+        var latestScore = {score: score, initials: userInitials};
+        //save scores+initials to local storage
+        savedHighScores.push(latestScore);
+        window.localStorage.setItem('savedHighScores', JSON.stringify(savedHighScores));
+        //bring user back to home page 
+        return homePage();
+    }
+}
+
+
+
+
 function youWon() {
     quizEl.style.display="none";
     timerWon.style.display="none";
@@ -237,8 +257,7 @@ function youWon() {
     scoreEl.textContent = score;
     //stop timer running
     clearInterval(timer);
-    var getHome = document.querySelector('#getHome');
-    getHome.addEventListener('click', homePage);
+    goHome.addEventListener('click', homePage);
 }
 
 function timedOut() {
@@ -247,8 +266,7 @@ function timedOut() {
     congrats.style.display="none";
     timerWon.style.display="flex";
     scoreEl.textContent = score;
-    var goHome = document.querySelector('#goHome');
-    goHome.addEventListener('click', homePage);
+    goHome.addEventListener('click', homePage)
 }
 
 
@@ -261,7 +279,11 @@ function homePage() {
 }
 
 
+//when view high scores is clicked, run viewScores
 
+
+//when submit score bt is clicked, run saveScore
+submitBtn.addEventListener("click", saveScore);
 
 // When startBtn is clicked, run function startGame
 startButton.addEventListener("click", startQuiz);
