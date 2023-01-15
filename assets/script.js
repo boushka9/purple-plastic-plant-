@@ -8,11 +8,10 @@ var questionEl = document.getElementById("question");
 var choiceEL = Array.from(document.getElementsByClassName("choice"));
 var correctEl = document.querySelector("#correct");
 var wrongEl = document.querySelector("#wrong");
-//empty object for 
-var currentQuery = {};
+var scoreEl = document.getElementById("finalscores");
 
-// for delays in interactivenes
-var allowGuess = false;
+//empty object to keep track of which questions have been shown and which are left 
+var currentQuery = {};
 
 var allQuestions = [
     {
@@ -32,10 +31,10 @@ var allQuestions = [
         answer: 4,        
     },
     {
-        question: "What type of data is enclosed in brackets and seperated by spaces?", 
-        choice1: "Object", 
-        choice2: "Array",
-        choice3:  "BigInt",
+        question: "What type of data is a boolean?", 
+        choice1: "String", 
+        choice2: "True/False",
+        choice3:  "Key/Value",
         choice4:  "Variables",
         answer: 2,        
     },
@@ -81,11 +80,11 @@ var allQuestions = [
     },
     {
         question: "How can you target an element's attribute with JavaScript?", 
-        choices1: ".getAttribute", 
+        choices1: ".target", 
         choice2: ".setAttribute", 
         choice3: ".removeAttribute", 
-        choice4: ".callAttribute",
-        answer: 1,        
+        choice4: ".getAttribute",
+        answer: 4,        
     },
     {
         question: "Which arthmetic operator returns the remainder of two numbers?", 
@@ -103,15 +102,16 @@ var questionIndex = 0;
 
 // User score variables
 var score = 0;
-// each correct score = 10 points
-var correctScore = 10;
-var perfectScore = 100;
-// user will see 10 questions before they finsih
-//may not be neccessary 
-var totalQueries = 10;
 
+//Variables for when user completes quiz
+var finish = document.querySelector("#finish")
 var timerWon = document.querySelector("#uh-oh");
 var congrats = document.querySelector("#congrats");
+var initialsInput = document.getElementById('initials');
+var submitBtn = document.getElementById("submitscore");
+var goToScores = document.getElementById("scoreslist");
+var goHome = document.querySelector('#goHome');
+
 
 
 //empty global variable to hold timer 
@@ -121,7 +121,7 @@ var timerCount;
 
 // start quiz: timer and questions render
 function startQuiz() {
-    timerCount = 151;
+    timerCount = 120;
     //reset questions and score (just to be safe)
     qIndex = 0;
     score = 0;
@@ -152,10 +152,14 @@ function startTimer() {
 
 
 function renderNextQuestion() {
+    //makes sure the correct/wrong feedback goes away when new question renders
     correctEl.style.display="none";
     wrongEl.style.display="none";
+
+    //display questions in random order via questionsLeft = no repeats
+    var questioncCounter = Math.floor(Math.random() * questionsLeft.length);
     //if you answer all questions before timer end, go to congrats page
-    if (questionsLeft.length === 0 || questioncCounter >= totalQueries) {
+    if (questionsLeft.length === 0) {
        return youWon(); 
     }
 
@@ -165,8 +169,7 @@ function renderNextQuestion() {
     }
     //increase question counter by 1 as game progresses
     questionIndex++;
-    //display questions in random order via questionsLeft = no repeats
-   var questioncCounter = Math.floor(Math.random() * questionsLeft.length);
+
    //get the question displayed on screen from the question property of the array of questions left
     currentQuery = questionsLeft[questioncCounter];
     questionEl.innerText = currentQuery.question;
@@ -179,21 +182,20 @@ function renderNextQuestion() {
     //get rid of questions as they are answered so they don't repeat
     questionsLeft.splice(questioncCounter, 1);
     
-    allowGuess = true;
 }
 
 //for each choice element button, listen for click and check data attribute #
 choiceEL.forEach(choiceEL => {
     choiceEL.addEventListener('click', e => {
-        if (!allowGuess) return;
-        //delay in users ability to answer
-        allowGuess = false;
         // use dataset number of clicked choice to see what user clicked
         var userChoice = e.target;
         var userAnswer = userChoice.dataset["number"];
-
+        //strictly = will return false bc 
         if (userAnswer == currentQuery.answer) {
             correctEl.style.display="flex";
+            //ten points per correct question
+            score += 10;
+            //localStorage.setItem 
         }
 
         if (userAnswer != currentQuery.answer) {
@@ -207,31 +209,80 @@ choiceEL.forEach(choiceEL => {
     });
 })
 
+function setScore() {
+    score.textContent = scoreEl
+    localStorage.setItem("scoreCount", score);
+}
+
+function showScores() {
+    // Get stored value from user storage, if it exists
+    var storedScore = localStorage.getItem("scoreCount");
+    // If stored value doesn't exist, set counter to 0
+    if (storedScore === null) {
+      scoreCounter = 0;
+    } else {
+      // If a value is retrieved from client storage set the winCounter to that value
+      score = storedScore;
+    }
+    //Render win count to page
+    scoreEl.textContent = score;
+}
+
+function saveScore() {
+    //get initials value from input box
+    var userInitials = initialsInput.value;
+    
+    // check if input box is empty
+    if (initialsInput !== '') {
+        //get saved scores from local storage or if none give empty array
+        var savedHighScores = JSON.parse(window.localStorage.getItem('savedHighScores')) || [];
+        //user saves their score = follow this format
+        var latestScore = {score: score, initials: userInitials};
+        //save scores+initials to local storage
+        savedHighScores.push(latestScore);
+        window.localStorage.setItem('savedHighScores', JSON.stringify(savedHighScores));
+        //bring user back to home page 
+        return homePage();
+    }
+}
 
 
 
 function youWon() {
     quizEl.style.display="none";
+    timerWon.style.display="none";
+    finish.style.display="flex"
     congrats.style.display="flex";
+    scoreEl.textContent = score;
     //stop timer running
     clearInterval(timer);
-    var getHome = document.querySelector('#getHome')
-    getHome.addEventListener('click', homePage)
+    goHome.addEventListener('click', homePage);
 }
 
 function timedOut() {
     quizEl.style.display="none";
+    finish.style.display="flex";
+    congrats.style.display="none";
     timerWon.style.display="flex";
-    var goHome = document.querySelector('#goHome');
-    goHome.addEventListener('click', homePage);
+    scoreEl.textContent = score;
+    goHome.addEventListener('click', homePage)
 }
+
 
 function homePage() {
     startPage.style.display="flex";
+    finish.style.display="none"
     quizEl.style.display="none";
     timerWon.style.display="none";
     congrats.style.display="none";
 }
+
+
+//when view high scores is clicked, run viewScores
+
+
+//when submit score bt is clicked, run saveScore
+submitBtn.addEventListener("click", saveScore);
 
 // When startBtn is clicked, run function startGame
 startButton.addEventListener("click", startQuiz);

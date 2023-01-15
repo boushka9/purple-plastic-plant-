@@ -73,7 +73,7 @@
     background-color: var(--dark);
     color: var(--light);
     font-size: 1rem;
-    margin-top: 20px;
+    margin-top: 40px;
     transition: all .2s ease-in-out;
 }
 /*Start button grows and text changes color w mouse hover*/
@@ -133,6 +133,7 @@ button.choice:hover {
 
 #correct {
     display: none;
+      /*JS will set display to flex*/
     flex-direction: row;
     justify-content: center;
 }
@@ -142,19 +143,10 @@ button.choice:hover {
     font-size: 1.5rem;
 }
 
-#congrats {
+#finish {
     display: none;
     flex-direction: column;
     align-items: center;
-    color: var(--dark)
-}
-
-#uh-oh {
-    display: none;
-    /*JS will set display to flex*/
-    flex-direction: column;
-    align-items: center;
-    color: var(--dark)
 }
 
 #finish h2 {
@@ -168,6 +160,27 @@ button.choice:hover {
     font-size: 1.2rem;
     text-align: center;
 }
+
+#congrats {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    color: var(--dark)
+}
+
+#uh-oh {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    color: var(--dark)
+}
+
+#finalscores {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
 
 .btns {
     font-size: 1rem;
@@ -199,11 +212,48 @@ button.choice:hover {
     margin: 10px;
 }
 
-.submit-score div {
-    margin: 10px;
+#backbtn {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
 }
 
+#backbtn > a {
+    font-size: 1.7rem;
+    text-decoration: none;
+    color: var(--muted);
+    margin: 15px 0 0 15px;
+}
 
+#highscorespage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#highscorespage > h1 {
+    font-size: 3rem;
+    margin: 21px 0px;
+    color: var(--contrast);
+}
+
+#allscores {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+#allscores > li {
+    text-align: left;
+    font-size: 2.5rem;
+    margin: 15px;
+    color: var(--dark);
+    font-weight: bold;
+}
+
+#allscores > li:nth-child(even) {
+    color: var(--muted);
+}
 
 /*When screen = larger text = bigger and p element has larger side margins*/
 @media screen and (min-width: 782px) {
@@ -239,7 +289,15 @@ button.choice:hover {
 
     #finish p {
         width: 70%;
-        font-size: 1.4rem;
+        font-size: 1.5rem;
+    }  
+    
+    #highscorespage > h1 {
+        font-size: 4rem;
+    }
+
+    #allscores > li {
+        font-size: 3.5rem;
     }    
 }   
 
