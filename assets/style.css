@@ -27,7 +27,7 @@
     text-decoration: none;
 }
 /*link color change on hover*/
-.banner > a:hover {
+.banner > a:hover, #backbtn > a:hover {
     color: var(--dark)
 }
 
@@ -37,8 +37,7 @@
     align-items: baseline;
 }
 
-/*needed more specific selection to get color*/
-#timer > h3, div {
+#timer > h3, .timer-count {
     color: var(--contrast);
 }
 
@@ -47,16 +46,16 @@
 }
 
 /* Main page */
-.instructions {
+.instructions, .submit-score, #highscorespage {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 10%;
 }
 
 .instructions > h1 {
     font-size: 2.1rem;
     margin: 21px 0px;
+    margin-top: 10%;
 }
 
 .instructions p {
@@ -82,7 +81,7 @@
     color: var(--pale);
 }
 /*default display set to none to hide until called by JS*/
-#quiz {
+#quiz, #finish, #congrats, #uh-oh {
     display: none;
     flex-direction: column;
     align-items: center;
@@ -113,17 +112,10 @@ button.choice {
     transition: all .2s ease-in-out;
 }
 /*answers will grow and change color when user hovers */
-button.choice:hover {
+button.choice:hover, .btns:hover {
     transform: scale(1.1); 
     background-color: var(--pale);
     color: var(--dark);
-}
-
-/*answer feedback hidden until user chooses an answer and JS will set display to flex*/
-#wrong {
-    display: none;
-    flex-direction: row;
-    justify-content: center;
 }
 
 #wrong p {
@@ -131,22 +123,11 @@ button.choice:hover {
     font-size: 1.5rem;
 }
 
-#correct {
-    display: none;
-    flex-direction: row;
-    justify-content: center;
-}
-
 #correct p {
     color: var(--muted);
     font-size: 1.5rem;
 }
 
-#finish {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-}
 
 #finish h2 {
     color: var(--contrast);
@@ -158,19 +139,6 @@ button.choice:hover {
     width: 90%;
     font-size: 1.2rem;
     text-align: center;
-}
-
-#congrats {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    color: var(--dark)
-}
-
-#uh-oh {
-    display: none;
-    flex-direction: column;
-    align-items: center;
     color: var(--dark)
 }
 
@@ -190,23 +158,7 @@ button.choice:hover {
     transition: all .2s ease-in-out;
 }
 
-.btns:hover {
-    transform: scale(1.1); 
-    background-color: var(--pale);
-    color: var(--dark);
-}
-
-.submit-score {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.submit-score label {
-    margin: 10px;
-}
-
-.submit-score input {
+.submit-score label, .submit-score input {
     margin: 10px;
 }
 
@@ -223,15 +175,6 @@ button.choice:hover {
     margin: 15px 0 0 15px;
 }
 
-#backbtn > a:hover {
-    color: var(--dark)
-}
-
-#highscorespage {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
 
 #highscorespage > h1 {
     font-size: 3rem;
@@ -259,11 +202,7 @@ button.choice:hover {
 
 /*When screen = larger text = bigger and p element has larger side margins*/
 @media screen and (min-width: 782px) {
-    .banner > a {
-        font-size: 1.2rem;
-    }
-
-    #timer {
+    .banner > a, #timer {
         font-size: 1.2rem;
     }
 
@@ -275,9 +214,9 @@ button.choice:hover {
         font-size: 2.4rem;
     }
     
-    .instructions p {
+    .instructions p, #finish p {
         width: 70%;
-        font-size: 1.3rem;
+        font-size: 1.5rem;
     }    
 
     .start-button {
@@ -288,11 +227,6 @@ button.choice:hover {
         font-size: 2.5rem;
         font-weight: bold;
     }
-
-    #finish p {
-        width: 70%;
-        font-size: 1.5rem;
-    }  
     
     #highscorespage > h1 {
         font-size: 4rem;
@@ -305,11 +239,7 @@ button.choice:hover {
 
 
 @media screen and (min-width: 992px) {
-    .banner > a {
-        font-size: 1.5rem;
-    }
-
-    #timer {
+    .banner > a, #timer {
         font-size: 1.5rem;
     }
 
@@ -322,7 +252,7 @@ button.choice:hover {
         margin-top: 15px;
     }
     
-    .instructions p {
+    .instructions p, #finish p {
         width: 60%;
         font-size: 1.6rem;
         margin: 12px 0px;
@@ -339,8 +269,4 @@ button.choice:hover {
         margin-bottom: 10px;
     }
 
-    #finish p {
-        width: 60%;
-        font-size: 1.6rem;
-    }    
 }    
