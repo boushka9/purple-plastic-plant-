@@ -99,8 +99,7 @@ var allQuestions = [
 var questionsLeft = [];
 //question counter 
 var questionIndex = 0;
-
-// User score variables
+// User score starts @ 0
 var score = 0;
 
 //Variables for when user completes quiz
@@ -111,8 +110,6 @@ var initialsInput = document.getElementById('initials');
 var submitBtn = document.getElementById("submitscore");
 var goToScores = document.getElementById("scoreslist");
 var goHome = document.querySelector('#goHome');
-
-
 
 //empty global variable to hold timer 
 var timer;
@@ -150,7 +147,6 @@ function startTimer() {
   }, 1000);
 }
 
-
 function renderNextQuestion() {
     //makes sure the correct/wrong feedback goes away when new question renders
     correctEl.style.display="none";
@@ -162,7 +158,6 @@ function renderNextQuestion() {
     if (questionsLeft.length === 0) {
        return youWon(); 
     }
-
     // if timer runs out before you answer all questions, go to uh-oh page
     if (timerCount === 0) {
         return timedOut();
@@ -173,7 +168,7 @@ function renderNextQuestion() {
    //get the question displayed on screen from the question property of the array of questions left
     currentQuery = questionsLeft[questioncCounter];
     questionEl.innerText = currentQuery.question;
-   // for each instance of choiceEL (which is class="choice") find the dataset number and match it to the same number @end of choice#: in 'current query' array
+   // for each iteration of choiceEL (which is class="choice") find the dataset number and match it to the same number @end of choice#: in 'current query' array
     choiceEL.forEach(choiceEL => {
         var number = choiceEL.dataset['number'];
         choiceEL.innerText = currentQuery['choice' + number];
@@ -185,19 +180,19 @@ function renderNextQuestion() {
 }
 
 //for each choice element button, listen for click and check data attribute #
+//instead of for loop, .forEach will apply to each element in array and it will loop the function whenever a choice is clicked
 choiceEL.forEach(choiceEL => {
-    choiceEL.addEventListener('click', e => {
+    choiceEL.addEventListener('click', query => {
         // use dataset number of clicked choice to see what user clicked
-        var userChoice = e.target;
+        var userChoice = query.target;
         var userAnswer = userChoice.dataset["number"];
-        //strictly = will return false bc 
+        //strictly = would return false everytime
         if (userAnswer == currentQuery.answer) {
             correctEl.style.display="flex";
             //ten points per correct question
             score += 10;
             //localStorage.setItem 
         }
-
         if (userAnswer != currentQuery.answer) {
             wrongEl.style.display="flex";
             //if wrong loose 10 seconds on timer
@@ -209,6 +204,7 @@ choiceEL.forEach(choiceEL => {
     });
 })
 
+//save the score count in local storage
 function setScore() {
     score.textContent = scoreEl
     localStorage.setItem("scoreCount", score);
@@ -247,7 +243,7 @@ function saveScore() {
 }
 
 
-
+// if you answer all questions before timer = 0
 function youWon() {
     quizEl.style.display="none";
     timerWon.style.display="none";
@@ -259,13 +255,14 @@ function youWon() {
     goHome.addEventListener('click', homePage);
 }
 
+// if timer = 0 before questions = 0
 function timedOut() {
     quizEl.style.display="none";
     finish.style.display="flex";
     congrats.style.display="none";
     timerWon.style.display="flex";
     scoreEl.textContent = score;
-    goHome.addEventListener('click', homePage)
+    goHome.addEventListener('click', homePage);
 }
 
 
@@ -276,9 +273,6 @@ function homePage() {
     timerWon.style.display="none";
     congrats.style.display="none";
 }
-
-
-//when view high scores is clicked, run viewScores
 
 
 //when submit score bt is clicked, run saveScore

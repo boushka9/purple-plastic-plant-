@@ -119,7 +119,7 @@ button.choice:hover {
     color: var(--dark);
 }
 
-/*answer feedback hidden until user chooses an answer*/
+/*answer feedback hidden until user chooses an answer and JS will set display to flex*/
 #wrong {
     display: none;
     flex-direction: row;
@@ -133,7 +133,6 @@ button.choice:hover {
 
 #correct {
     display: none;
-      /*JS will set display to flex*/
     flex-direction: row;
     justify-content: center;
 }
@@ -181,7 +180,6 @@ button.choice:hover {
     font-weight: bold;
 }
 
-
 .btns {
     font-size: 1rem;
     border-radius: 10px;
@@ -223,6 +221,10 @@ button.choice:hover {
     text-decoration: none;
     color: var(--muted);
     margin: 15px 0 0 15px;
+}
+
+#backbtn > a:hover {
+    color: var(--dark)
 }
 
 #highscorespage {
