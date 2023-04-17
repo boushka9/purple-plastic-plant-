@@ -5,7 +5,7 @@
 ## <img src="./assets/images/about.png" alt="About Header" height="40px">
 The purpose of this project was to create a basic quiz using JavaScript to render the quiz questions and answer choices on the screen and recording the users answers as the quiz progresses. The quiz includes a timer functionality, feedback on answer choices, and a save high score option as well as a page to view and compare past saved high scores. The most difficult aspects of this project for me were the functions to randomly display questions without having repeat questions, and the functions to judge if the question the user selected were correct or incorrect. Both of these functionalities were achieved using arrow function expressions, and the .forEach() method, which executes a function for each element in an array. Both of these were foreign concepts for me at the beginning of this project that I learned to create this project.
 
-## <img src="./assets/images/Installation.png" alt="Installation Header" height="40px">
+## <img src="./assets/images/installation.png" alt="Installation Header" height="40px">
 No Installation is necessary to use this application. The deployed page can be accessed at https://boushka9.github.io/tiny-lego-parakeet/ .
 
 
