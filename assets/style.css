@@ -81,8 +81,11 @@
     color: var(--pale);
 }
 /*default display set to none to hide until called by JS*/
-#quiz, #finish, #congrats, #uh-oh {
+.none {
     display: none;
+}
+
+#quiz, #finish, #congrats, #uh-oh {
     flex-direction: column;
     align-items: center;
 }
